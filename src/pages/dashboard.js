@@ -2,17 +2,20 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-
 export default function Dashboard() {
   const router = useRouter();
-  const { token, user } = useSelector(state => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (!token) router.push("/login");
-  }, [token, router]);
+    console.log("Token:", token);
+    console.log("User:", user);
 
-  if (!user) return <p className="p-8">Loading...</p>;
+    if (!token || !user) {
+      router.push("/login");
+    }
+  }, [token, user, router]);
 
+  if (!user || !token) return <p className="p-8">Loading...</p>;
 
   const stats = [
     { title: "Total Posts", value: 12 },
